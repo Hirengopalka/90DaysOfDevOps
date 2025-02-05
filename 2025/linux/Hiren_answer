@@ -1,9 +1,9 @@
-**Managing Users, Groups, and SSH Access in Linux**
+Managing Users, Groups, and SSH Access in Linux
 This guide will help you create a new user, assign them to a group, grant administrative privileges, and restrict SSH access for specific accounts.
 
 ---
 
-## **1️⃣ Creating a New User**
+1️⃣ Creating a New User
 To add a new user named `devops_user`, use this command:  
 ```bash
 sudo useradd -m -s /bin/bash devops_user
@@ -16,9 +16,7 @@ To confirm the user was created, check:
 cat /etc/passwd | grep devops_user
 ```
 
----
-
-## **2️⃣ Creating a Group and Adding the User**
+2️⃣ Creating a Group and Adding the User
 Now, let’s create a group called `devops_team` and add `devops_user` to it.
 
 Create the group:
@@ -34,18 +32,14 @@ Verify:
 cat /etc/group | grep devops_team
 ```
 
----
-
-## **3️⃣ Assigning a Password to the User**
+3️⃣ Assigning a Password to the User
 Set a password for `devops_user` by running:
 ```bash
 sudo passwd devops_user
 ```
 You’ll be prompted to enter a password twice.
 
----
-
-## **4️⃣ Granting Admin Privileges**
+4️⃣ Granting Admin Privileges
 To allow `devops_user` to execute administrative commands, add them to the `sudo` group:
 ```bash
 sudo usermod -aG sudo devops_user
@@ -60,9 +54,7 @@ devops_user ALL=(ALL) NOPASSWD:ALL
 ```
 Save and exit the file.
 
----
-
-## **5️⃣ Controlling SSH Access**
+5️⃣ Controlling SSH Access
 To limit who can log in via SSH:
 
 1. Edit the SSH configuration:
@@ -86,9 +78,7 @@ To limit who can log in via SSH:
    sudo cat /var/log/auth.log | grep "sshd"
    ```
 
----
-
-*✅ Final Checklist
+✅ Summry Of Task 
 ✔ Created a new user (`devops_user`).  
 ✔ Added the user to a custom group (`devops_team`).  
 ✔ Set up a password.  
