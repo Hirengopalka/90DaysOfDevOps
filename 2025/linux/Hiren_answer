@@ -1,0 +1,97 @@
+**Managing Users, Groups, and SSH Access in Linux**
+This guide will help you create a new user, assign them to a group, grant administrative privileges, and restrict SSH access for specific accounts.
+
+---
+
+## **1️⃣ Creating a New User**
+To add a new user named `devops_user`, use this command:  
+```bash
+sudo useradd -m -s /bin/bash devops_user
+```
+- The `-m` flag ensures a home directory (`/home/devops_user`) is created.  
+- The `-s /bin/bash` part sets Bash as the default shell.  
+
+To confirm the user was created, check:
+```bash
+cat /etc/passwd | grep devops_user
+```
+
+---
+
+## **2️⃣ Creating a Group and Adding the User**
+Now, let’s create a group called `devops_team` and add `devops_user` to it.
+
+Create the group:
+```bash
+sudo groupadd devops_team
+```
+Add the user to this group:
+```bash
+sudo usermod -aG devops_team devops_user
+```
+Verify:
+```bash
+cat /etc/group | grep devops_team
+```
+
+---
+
+## **3️⃣ Assigning a Password to the User**
+Set a password for `devops_user` by running:
+```bash
+sudo passwd devops_user
+```
+You’ll be prompted to enter a password twice.
+
+---
+
+## **4️⃣ Granting Admin Privileges**
+To allow `devops_user` to execute administrative commands, add them to the `sudo` group:
+```bash
+sudo usermod -aG sudo devops_user
+```
+Alternatively, open the sudoers file for direct modifications:
+```bash
+sudo visudo
+```
+Add this line at the end:
+```
+devops_user ALL=(ALL) NOPASSWD:ALL
+```
+Save and exit the file.
+
+---
+
+## **5️⃣ Controlling SSH Access**
+To limit who can log in via SSH:
+
+1. Edit the SSH configuration:
+   ```bash
+   sudo nano /etc/ssh/sshd_config
+   ```
+2. To **block specific users**, add:
+   ```
+   DenyUsers root testuser
+   ```
+   Or, to **allow only specific users**, add:
+   ```
+   AllowUsers devops_user
+   ```
+3. Save the file and restart SSH:
+   ```bash
+   sudo systemctl restart sshd
+   ```
+4. Check SSH logs to ensure the changes are working:
+   ```bash
+   sudo cat /var/log/auth.log | grep "sshd"
+   ```
+
+---
+
+*✅ Final Checklist
+✔ Created a new user (`devops_user`).  
+✔ Added the user to a custom group (`devops_team`).  
+✔ Set up a password.  
+✔ Granted admin access.  
+✔ Configured SSH restrictions.  
+
